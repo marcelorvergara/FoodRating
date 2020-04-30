@@ -1,0 +1,114 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "ec8250173a65c1dd8727243cee3a82e0",
+    "entities": [
+      {
+        "tableName": "Restaurante",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nome` TEXT NOT NULL, `endereco` TEXT NOT NULL, `tipo` TEXT NOT NULL, `avaliacao` REAL NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "fields": [
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endereco",
+            "columnName": "endereco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avaliacao",
+            "columnName": "avaliacao",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Refeicao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nome` TEXT NOT NULL, `resumo` TEXT NOT NULL, `avaliacao` TEXT NOT NULL, `data` TEXT NOT NULL, `foto` TEXT NOT NULL, `id_restaurante` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "fields": [
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resumo",
+            "columnName": "resumo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avaliacao",
+            "columnName": "avaliacao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "foto",
+            "columnName": "foto",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_restaurante",
+            "columnName": "id_restaurante",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ec8250173a65c1dd8727243cee3a82e0')"
+    ]
+  }
+}
