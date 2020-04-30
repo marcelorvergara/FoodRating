@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
         Refeicao::class
     ),
     //para notificar mudanças da base de dados do dispositivo
-    version = 1
+    version = 2
 )
 abstract class AppDatabase: RoomDatabase() {
 

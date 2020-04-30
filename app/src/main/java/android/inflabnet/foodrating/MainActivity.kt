@@ -19,12 +19,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appDatabase : AppDatabase
 
-
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //abre conexão com o banco
         appDatabase = AppDatabaseService.getInstance(this)
 
         proximoBtn.setOnClickListener {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupAutoCompleteRestaurantes() {
         val nomes = PegarRestaurantes().execute().get()
 
-        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,nomes)
+        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,nomes)
         aCTVRestaurantes.setAdapter(adapter)
         aCTVRestaurantes.threshold = 1
         aCTVRestaurantes.text.toString()
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
         rootLayout.setOnClickListener {
             val text =aCTVRestaurantes.text
-            Toast.makeText(applicationContext, "Entrado : $text", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Aplicação teste", Toast.LENGTH_SHORT).show()
         }
         aCTVRestaurantes.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
             if (b) {
@@ -84,5 +84,11 @@ class MainActivity : AppCompatActivity() {
             val novoIntt = Intent(this, CadastrarActivity::class.java)
             startActivity(novoIntt)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    override fun onResume() {
+        super.onResume()
+        setupAutoCompleteRestaurantes()
     }
 }

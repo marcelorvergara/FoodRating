@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FoodRating</string>
+    <string name="nome_do_prato">Nome do Prato</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="avalia_o">Avaliação</string>
+    <string name="data_avalia_o">Data Avaliação</string>
+    <string name="todo">TODO</string>
+    <string name="guardar">Guardar</string>
+    <string name="restaurante">Restaurante:</string>
 </resources>

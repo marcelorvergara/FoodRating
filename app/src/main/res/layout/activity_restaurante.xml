@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtXYZ" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/verBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -40,4 +40,15 @@
         android:text="Ver Avaliações"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avaliarBtn" />
+
+    <Button
+        android:id="@+id/editarRestaurantebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="62dp"
+        android:text="Editar Restaurante"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

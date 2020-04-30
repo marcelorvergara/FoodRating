@@ -1,9 +1,6 @@
 package android.inflabnet.foodrating.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface RestauranteDAO {
@@ -16,5 +13,15 @@ interface RestauranteDAO {
 
     @Query("Select count(*) from Restaurante")
     fun buscaQuantos(): Int
+
+    @Query("Select id from Restaurante where nome = :nome")
+    fun buscaPK(nome: String): Int
+
+    @Transaction
+    @Query("Select * from Restaurante  where nome = :nome")
+    fun buscaRefeicoes(nome: String): List<RestauranteERefeicao>
+
+    @Query("Select * from Refeicao where id_restaurante = :i")
+    fun buscaRefeicoes2(i: Int): List<Refeicao>
 
 }

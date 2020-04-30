@@ -1,6 +1,7 @@
 package android.inflabnet.foodrating
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.inflabnet.foodrating.db.AppDatabase
 import android.inflabnet.foodrating.db.AppDatabaseService
 import android.inflabnet.foodrating.db.Restaurante
@@ -31,6 +32,11 @@ class CadastrarActivity : AppCompatActivity() {
 
         verificarBtn.setOnClickListener {
             showToast()
+        }
+
+        voltarBtn.setOnClickListener {
+            val novoIntt = Intent(this, MainActivity::class.java)
+            startActivity(novoIntt)
         }
     }
 
