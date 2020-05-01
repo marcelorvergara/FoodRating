@@ -1,9 +1,9 @@
-package android.inflabnet.foodrating.db
+package android.inflabnet.foodrating.db.init
 
-import android.inflabnet.foodrating.db.Refeicao
-import android.inflabnet.foodrating.db.RefeicaoDAO
-import android.inflabnet.foodrating.db.Restaurante
-import android.inflabnet.foodrating.db.RestauranteDAO
+import android.inflabnet.foodrating.db.models.Refeicao
+import android.inflabnet.foodrating.db.dao.RefeicaoDAO
+import android.inflabnet.foodrating.db.models.Restaurante
+import android.inflabnet.foodrating.db.dao.RestauranteDAO
 import androidx.room.Database
 import androidx.room.RoomDatabase
 

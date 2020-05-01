@@ -1,10 +1,11 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.inflabnet.foodrating.db.AppDatabase
-import android.inflabnet.foodrating.db.AppDatabaseService
-import android.inflabnet.foodrating.db.Restaurante
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.init.AppDatabase
+import android.inflabnet.foodrating.db.init.AppDatabaseService
+import android.inflabnet.foodrating.db.models.Restaurante
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -55,7 +56,12 @@ class CadastrarActivity : AppCompatActivity() {
         val endereco = edtEndereco1.text.toString()
         val tipo = edtTipoComida1.text.toString()
         val avaliacao = ratingRestaurante1.rating
-        val objRestaurante = Restaurante(nome,endereco,tipo,avaliacao)
+        val objRestaurante = Restaurante(
+            nome,
+            endereco,
+            tipo,
+            avaliacao
+        )
         CadastroNoBanco().execute(objRestaurante)
 
     }

@@ -1,16 +1,15 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.content.Intent
-import android.inflabnet.foodrating.db.AppDatabase
-import android.inflabnet.foodrating.db.AppDatabaseService
-import android.inflabnet.foodrating.db.Restaurante
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.init.AppDatabase
+import android.inflabnet.foodrating.db.init.AppDatabaseService
+import android.inflabnet.foodrating.db.models.Restaurante
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_editar_restaurante.*
-import kotlinx.android.synthetic.main.activity_restaurante.*
 
 class EditarRestauranteActivity : AppCompatActivity() {
 
@@ -35,7 +34,12 @@ class EditarRestauranteActivity : AppCompatActivity() {
             val endereco = edtEndereco1.text.toString()
             val tipo = edtTipoComida1.text.toString()
             val avaliacao = ratingRestaurante1.rating
-            val restObj = Restaurante(txtNomeEdtRestaurante.text.toString(),endereco,tipo,avaliacao)
+            val restObj = Restaurante(
+                txtNomeEdtRestaurante.text.toString(),
+                endereco,
+                tipo,
+                avaliacao
+            )
             UpdateRestaurante().execute(restObj)
         }
 
@@ -61,7 +65,7 @@ class EditarRestauranteActivity : AppCompatActivity() {
         }
     }
 
-    inner class BuscarRestaurante:AsyncTask<String,Unit,Restaurante>(){
+    inner class BuscarRestaurante:AsyncTask<String,Unit, Restaurante>(){
         override fun doInBackground(vararg params: String?): Restaurante {
             var restauranteObj = appDatabase.restauranteDAO().buscaRestaurante(params[0]!!)
             return restauranteObj

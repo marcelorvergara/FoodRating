@@ -1,30 +1,28 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.inflabnet.foodrating.db.Refeicao
-import android.inflabnet.foodrating.db.RestauranteERefeicao
-import android.provider.MediaStore
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.models.Refeicao
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewConfiguration.get
 import android.view.ViewGroup
-import androidx.appcompat.widget.ResourceManagerInternal.get
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_refeicao.view.*
-import java.io.File
-import java.security.AccessController.getContext
 
-class RefeicoesAdapter(val context: Context,val refeicao: List<Refeicao>, private val itemClick: (Refeicao) -> Unit) :
+class RefeicoesAdapter(val context: Context, val refeicao: List<Refeicao>, private val itemClick: (Refeicao) -> Unit) :
     RecyclerView.Adapter<RefeicoesAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_refeicao,parent,false)
-        return ViewHolder(context,view, itemClick)
+        return ViewHolder(
+            context,
+            view,
+            itemClick
+        )
     }
 
     override fun getItemCount() = refeicao.size
@@ -42,7 +40,8 @@ class RefeicoesAdapter(val context: Context,val refeicao: List<Refeicao>, privat
                     itemView.imgView.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.ic_block_black_24dp))
+                            R.drawable.ic_block_black_24dp
+                        ))
                 }else {
                     itemView.imgView.setImageBitmap(BitmapFactory.decodeFile(refeicao.foto))
                 }

@@ -1,4 +1,4 @@
-package android.inflabnet.foodrating.db
+package android.inflabnet.foodrating.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditarRestauranteActivity"></activity>
+        <activity android:name=".activities.EditarRestauranteActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -31,17 +31,21 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-        <activity android:name=".VerRatingRefeicoesActivity" />
-        <activity android:name=".RatingRefeicoesActivity" />
-        <activity android:name=".CadastrarActivity" />
-        <activity android:name=".RestauranteActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.VerRatingRefeicoesActivity" />
+        <activity android:name=".activities.RatingRefeicoesActivity" />
+        <activity android:name=".activities.CadastrarActivity" />
+        <activity android:name=".activities.RestauranteActivity" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.content.Intent
-import android.inflabnet.foodrating.db.AppDatabase
-import android.inflabnet.foodrating.db.AppDatabaseService
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.init.AppDatabase
+import android.inflabnet.foodrating.db.init.AppDatabaseService
 import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity

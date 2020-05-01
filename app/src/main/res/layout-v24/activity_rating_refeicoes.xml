@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RatingRefeicoesActivity">
+    tools:context=".activities.RatingRefeicoesActivity">
 
     <ImageView
         android:id="@+id/foodView"
@@ -136,7 +136,7 @@
         android:layout_marginLeft="8dp"
         android:fontFamily="serif-monospace"
         android:text="nota"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold|italic"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
         app:layout_constraintStart_toEndOf="@+id/textView4" />

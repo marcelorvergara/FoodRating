@@ -1,6 +1,7 @@
-package android.inflabnet.foodrating.db
+package android.inflabnet.foodrating.db.init
 
 import android.content.Context
+import android.inflabnet.foodrating.db.init.AppDatabase
 import androidx.room.Room
 
 //classe singleton
@@ -14,8 +15,8 @@ class AppDatabaseService {
                     context,
                     AppDatabase::class.java,
                     database_name
-                //).build()
-                ).fallbackToDestructiveMigration().build()
+                ).build()
+                //).fallbackToDestructiveMigration().build()
             }
             return instance as AppDatabase
         }

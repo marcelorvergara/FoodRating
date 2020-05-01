@@ -1,13 +1,13 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.content.Intent
-import android.inflabnet.foodrating.db.AppDatabase
-import android.inflabnet.foodrating.db.AppDatabaseService
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.init.AppDatabase
+import android.inflabnet.foodrating.db.init.AppDatabaseService
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import kotlinx.android.synthetic.main.activity_rating_refeicoes.*
 import kotlinx.android.synthetic.main.activity_restaurante.*
 
 class RestauranteActivity : AppCompatActivity() {

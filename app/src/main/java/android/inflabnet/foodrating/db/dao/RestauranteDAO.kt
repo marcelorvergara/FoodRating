@@ -1,5 +1,8 @@
-package android.inflabnet.foodrating.db
+package android.inflabnet.foodrating.db.dao
 
+import android.inflabnet.foodrating.db.models.Refeicao
+import android.inflabnet.foodrating.db.models.Restaurante
+import android.inflabnet.foodrating.db.models.RestauranteERefeicao
 import androidx.room.*
 
 @Dao
@@ -32,5 +35,12 @@ interface RestauranteDAO {
 
     @Update
     fun update(s: Restaurante)
+
+    @Transaction
+    @Query("Select * from Restaurante where id = :id")
+    fun buscaGeral(id: Int): List<RestauranteERefeicao>
+
+    @Query("Select * from Restaurante")
+    fun buscaTudo(): List<Restaurante>
 
 }

@@ -1,4 +1,4 @@
-package android.inflabnet.foodrating
+package android.inflabnet.foodrating.activities
 
 import android.Manifest
 import android.app.Activity
@@ -6,11 +6,11 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.inflabnet.foodrating.db.AppDatabase
-import android.inflabnet.foodrating.db.AppDatabaseService
-import android.inflabnet.foodrating.db.Refeicao
+import android.inflabnet.foodrating.R
+import android.inflabnet.foodrating.db.init.AppDatabase
+import android.inflabnet.foodrating.db.init.AppDatabaseService
+import android.inflabnet.foodrating.db.models.Refeicao
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -47,7 +48,7 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
         val nomeRestaurante = intent.getStringExtra("nomeRestaurante")
         if(!nomeRestaurante.isNullOrBlank()){
-            txtNomeRestauranteAvaliacao.append(nomeRestaurante.toString())
+            txtNomeRestauranteAvaliacao.append("\n${nomeRestaurante}")
         }
 
         foodView.setOnClickListener{
@@ -71,6 +72,8 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                 edtDataAvaliacao.setText(dataStr)
             }, ano,mes,dia)
             dpDialog.show()
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(edtDataAvaliacao.windowToken, 0)
         }
 
         //nota
@@ -96,26 +99,29 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                     fotoPath = "@drawable/ic_add_a_photo_black_24dp"
                 }
                 //pegar PK do restaurante
-                val pkRestauranteParaInsert = PegarPKRestaurante().execute(txtNomeRestauranteAvaliacao.text.toString().replace("Restaurante:","")).get()
-
+                val pkRestauranteParaInsert = PegarPKRestaurante().execute(nomeRestaurante).get()
                 //guardar a avaliação no db
-                val refeicaoObj = Refeicao(nomePrato,ingredientesPrato,avaliacaoPrato,dataAvaliacaoPrato,fotoPath,notaPrato,pkRestauranteParaInsert)
+                val refeicaoObj =
+                    Refeicao(
+                        nomePrato,
+                        ingredientesPrato,
+                        avaliacaoPrato,
+                        dataAvaliacaoPrato,
+                        fotoPath,
+                        notaPrato,
+                        pkRestauranteParaInsert
+                    )
+
                 GuardarAvaliacaoRefeicao().execute(refeicaoObj)
-                val totRefeicao = VerificarAvaliacoes().execute().get()
-                displayMessage(this, totRefeicao.toString())
             }
-        }
-    }
-    inner class VerificarAvaliacoes:AsyncTask<Unit,Unit,Int>(){
-        override fun doInBackground(vararg params: Unit?):Int {
-            val tot = appDatabase.refeicaoDAO().selectAll()
-            return tot
         }
     }
 
     inner class GuardarAvaliacaoRefeicao: AsyncTask<Refeicao,Unit,Unit>(){
         override fun doInBackground(vararg params: Refeicao?) {
+            Log.i("Refeicao1",params[0]!!.nome)
             appDatabase.refeicaoDAO().guardar(params[0])
+
         }
 
         override fun onPostExecute(result: Unit?) {
@@ -144,7 +150,7 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
                     photoFile = createImageFile()
                     displayMessage(baseContext, photoFile!!.getAbsolutePath())
-                    Log.i("Mayank", photoFile!!.getAbsolutePath())
+                    Log.i("Passei aqui", photoFile!!.getAbsolutePath())
 
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
@@ -162,7 +168,7 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                     }
                 } catch (ex: Exception) {
                     // Error occurred while creating the File
-                    displayMessage(baseContext,"Capture Image Bug: "  + ex.message.toString())
+                    displayMessage(baseContext,"Problema com a captura da imagem: "  + ex.message.toString())
                 }
 
 
@@ -174,14 +180,14 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
     }
 
-    /* Capture Image function for 4.4.4 and lower. Not tested for Android Version 3 and 2 */
+    /* versões antigas */
     private fun captureImage2() {
         try {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             photoFile = createImageFile4()
             if (photoFile != null) {
                 displayMessage(baseContext, photoFile!!.getAbsolutePath())
-                Log.i("caminhov4", photoFile!!.getAbsolutePath())
+
                 val photoURI = Uri.fromFile(photoFile)
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(cameraIntent, CAPTURE_IMAGE_REQUEST)
@@ -218,7 +224,7 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                displayMessage(baseContext, "Unable to create directory.")
+                displayMessage(baseContext, "Não foi possível criar o diretório.")
                 return null
             }
         }
