@@ -3,7 +3,6 @@ package android.inflabnet.foodrating
 import android.content.Intent
 import android.inflabnet.foodrating.db.AppDatabase
 import android.inflabnet.foodrating.db.AppDatabaseService
-import android.inflabnet.foodrating.db.Restaurante
 import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         //abre conexão com o banco
         appDatabase = AppDatabaseService.getInstance(this)
 
-        proximoBtn.setOnClickListener {
+        alterarBtn.setOnClickListener {
             cadastroTela()
         }
 
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupAutoCompleteRestaurantes() {
         val nomes = PegarRestaurantes().execute().get()
 
-        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,nomes)
+        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,nomes)
         aCTVRestaurantes.setAdapter(adapter)
         aCTVRestaurantes.threshold = 1
         aCTVRestaurantes.text.toString()

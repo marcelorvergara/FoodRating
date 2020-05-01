@@ -26,13 +26,10 @@ class CadastrarActivity : AppCompatActivity() {
             edtNome.setText(nomeRestaurante.toString())
         }
 
-        proximoBtn.setOnClickListener {
+        alterarBtn.setOnClickListener {
             cadastroRestaurante()
         }
 
-        verificarBtn.setOnClickListener {
-            showToast()
-        }
 
         voltarBtn.setOnClickListener {
             val novoIntt = Intent(this, MainActivity::class.java)
@@ -55,12 +52,12 @@ class CadastrarActivity : AppCompatActivity() {
 
     private fun cadastroRestaurante() {
         val nome = edtNome.text.toString()
-        val endereco = edtEndereco.text.toString()
-        val tipo = edtTipoComida.text.toString()
-        val avaliacao = ratingRestaurante.numStars.toFloat()
+        val endereco = edtEndereco1.text.toString()
+        val tipo = edtTipoComida1.text.toString()
+        val avaliacao = ratingRestaurante1.rating
         val objRestaurante = Restaurante(nome,endereco,tipo,avaliacao)
-
         CadastroNoBanco().execute(objRestaurante)
+
     }
 
     inner class CadastroNoBanco: AsyncTask<Restaurante,Unit,Unit>(){
@@ -71,6 +68,10 @@ class CadastrarActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: Unit?) {
             Toast.makeText(applicationContext,"Cadstro com sucesso!",Toast.LENGTH_SHORT).show()
+            edtNome.setText("")
+            edtEndereco1.setText("")
+            edtTipoComida1.setText("")
+            ratingRestaurante1.rating = 0.0f
         }
     }
 }

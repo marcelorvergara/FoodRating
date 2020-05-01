@@ -24,4 +24,13 @@ interface RestauranteDAO {
     @Query("Select * from Refeicao where id_restaurante = :i")
     fun buscaRefeicoes2(i: Int): List<Refeicao>
 
+    @Query("Select avaliacao from Restaurante where nome = :s")
+    fun avaliacao(s: String): Float
+
+    @Query("Select * from Restaurante where nome = :s")
+    fun buscaRestaurante(s: String): Restaurante
+
+    @Update
+    fun update(s: Restaurante)
+
 }

@@ -136,8 +136,8 @@
         android:layout_marginLeft="8dp"
         android:fontFamily="serif-monospace"
         android:text="nota"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
         app:layout_constraintStart_toEndOf="@+id/textView4" />
 
