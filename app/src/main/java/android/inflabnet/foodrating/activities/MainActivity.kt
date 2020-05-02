@@ -4,15 +4,18 @@ import android.content.Intent
 import android.inflabnet.foodrating.R
 import android.inflabnet.foodrating.db.init.AppDatabase
 import android.inflabnet.foodrating.db.init.AppDatabaseService
+import android.inflabnet.foodrating.db.models.Restaurante
 import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +35,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupAutoCompleteRestaurantes()
+        setupListRestaurantes().execute().get()
+
     }
 
+    inner class setupListRestaurantes:AsyncTask<Unit,Unit,List<Restaurante>>(){
+        override fun doInBackground(vararg params: Unit?):List<Restaurante> {
+            val restaurantes =  appDatabase.restauranteDAO().buscaTudo()
+            return restaurantes
+        }
+
+        override fun onPostExecute(result: List<Restaurante>?) {
+            val linearLayoutManager = LinearLayoutManager(applicationContext)
+            rcRecycleV.layoutManager = linearLayoutManager
+            rcRecycleV.scrollToPosition(result!!.size - 1)
+            rcRecycleV.adapter = RestauranteAdapter(result) {
+                val selectedItem= it
+                val intt = Intent(this@MainActivity, RestauranteActivity::class.java)
+                val restauranteNome = selectedItem.nome
+                intt.putExtra("nomeRestaurante",restauranteNome)
+                startActivity(intt)
+            }
+
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setupAutoCompleteRestaurantes() {

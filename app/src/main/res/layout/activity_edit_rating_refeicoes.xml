@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RatingRefeicoesActivity">
+    tools:context=".activities.EditRatingRefeicoesActivity">
 
     <ImageView
         android:id="@+id/foodView"
@@ -75,15 +75,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="21dp" />
-
-    <Button
-        android:id="@+id/updateBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/guardar"
-        app:layout_constraintBaseline_toBaselineOf="@+id/edtDataAvaliacao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edtDataAvaliacao" />
 
     <TextView
         android:id="@+id/txtNomeRestauranteAvaliacao"
@@ -157,13 +148,39 @@
         app:layout_constraintTop_toBottomOf="@+id/foodView" />
 
     <Button
-        android:id="@+id/voltarBtn"
+        android:id="@+id/voltarrrrBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
         android:text="Voltar"
-        app:layout_constraintBottom_toTopOf="@+id/guardarBtn"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/update2Btn"
         app:layout_constraintStart_toEndOf="@+id/edtAvaliacao" />
+
+    <TextView
+        android:id="@+id/txtId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtIdRestaurante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txtId" />
+
+    <Button
+        android:id="@+id/update2Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Alterar"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edtDataAvaliacao"
+        app:layout_constraintStart_toEndOf="@+id/edtDataAvaliacao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.inflabnet.foodrating.db.models.Refeicao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface RefeicaoDAO {
@@ -19,5 +20,11 @@ interface RefeicaoDAO {
 
     @Query("Select foto from Refeicao where nome = :nome")
     fun getUri(nome: String): String
+
+    @Query("Delete from Refeicao where id_restaurante = :id")
+    fun deleteRefeicoes(id: Int?)
+
+    @Update
+    fun update(refeicao: Refeicao)
 
 }

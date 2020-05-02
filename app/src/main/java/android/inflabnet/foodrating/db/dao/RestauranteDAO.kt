@@ -43,4 +43,10 @@ interface RestauranteDAO {
     @Query("Select * from Restaurante")
     fun buscaTudo(): List<Restaurante>
 
+    @Delete
+    fun deleteRestaurante(restauranteDel: Restaurante)
+
+    @Query("Select nome from Restaurante where id =:i")
+    fun buscaNome(i: Int): String
+
 }

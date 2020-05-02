@@ -19,22 +19,11 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/edtNovoRestaurante"
-        android:layout_width="268dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="29dp"
-        android:ems="10"
-        android:hint="Cadastre um novo Restaurante"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/aCTVRestaurantes" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="229dp"
         android:layout_height="39dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="serif-monospace"
         android:text="Restaurantes"
         android:textSize="30sp"
@@ -42,21 +31,80 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/alterarBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="8dp"
-        android:text="Cadastrar"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/edtNovoRestaurante" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="20dp" />
+
+    <ScrollView
+        android:id="@+id/scrollRestaurantes"
+        android:layout_width="290dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        android:isScrollContainer="false"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/aCTVRestaurantes">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/border"
+                android:fontFamily="serif-monospace"
+                android:text="Restaurantes Cadastrados"
+                android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcRecycleV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/border" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border"
+        android:fadingEdgeLength="?attr/dialogPreferredPadding"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/scrollRestaurantes">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:background="@drawable/border"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtNovoRestaurante"
+                android:layout_width="268dp"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Cadastre um novo Restaurante"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/alterarBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cadastrar" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

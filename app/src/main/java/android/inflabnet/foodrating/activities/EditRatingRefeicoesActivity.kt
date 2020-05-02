@@ -25,32 +25,75 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.*
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.edtAvaliacao
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.edtDataAvaliacao
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.edtIngredientes
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.edtNomePrato
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.foodView
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.seekBar
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.txtNomeRestauranteAvaliacao
+import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.txtNota
 import kotlinx.android.synthetic.main.activity_rating_refeicoes.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
+class EditRatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
+    private lateinit var appDatabase : AppDatabase
+    //foto
     private var photoFile: File? = null
     private val CAPTURE_IMAGE_REQUEST = 1
     private lateinit var mCurrentPhotoPath: String
     private val IMAGE_DIRECTORY_NAME = "RATINGFOOD"
-
-    private lateinit var appDatabase : AppDatabase
+    //nome restaurante
+    lateinit var nomeRestauranteRefeicao : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rating_refeicoes)
+        setContentView(R.layout.activity_edit_rating_refeicoes)
 
         appDatabase = AppDatabaseService.getInstance(this)
 
+        //se veio do RecycleView com refeicoes
+        val refeicaoRv: Refeicao? = intent.getSerializableExtra("nomeRefeicao") as Refeicao
+        if (refeicaoRv != null) {
+            if(!refeicaoRv.nome.isBlank()){
+                nomeRestauranteRefeicao = GetNomeRestauranteFromId().execute(refeicaoRv.id_restaurante).get()
+                //colocando o nome
+                txtNomeRestauranteAvaliacao.append("\n${nomeRestauranteRefeicao}")
+                //colocando a foto
+                val firstChar = refeicaoRv.foto.substring(0,1)
+                if(firstChar.equals("@")){
+                    foodView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_block_black_24dp
+                        ))
+                }else {
+                    foodView.setImageBitmap(BitmapFactory.decodeFile(refeicaoRv.foto))
+                }
+                //colocando o nome do prato
+                edtNomePrato.setText(refeicaoRv.nome)
+                //colocando os ingredientes
+                edtIngredientes.setText(refeicaoRv.ingredientes)
+                //colocando a avaliacao
+                edtAvaliacao.setText(refeicaoRv.avaliacao)
+                //colocando a fata
+                edtDataAvaliacao.setText(refeicaoRv.data)
+                //coloca a nota
+                txtNota.text = refeicaoRv.nota.toString()
+                seekBar.progress = refeicaoRv.nota
 
-        val nomeRestaurante = intent.getStringExtra("nomeRestaurante")
-        if(!nomeRestaurante.isNullOrBlank()){
-            txtNomeRestauranteAvaliacao.append("\n${nomeRestaurante}")
+                txtId.text = refeicaoRv.id.toString()
+                txtIdRestaurante.text = refeicaoRv.id_restaurante.toString()
+
+            }
         }
+
+        this.seekBar!!.setOnSeekBarChangeListener(this)
 
         foodView.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -59,14 +102,6 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                 captureImage2()
             }
         }
-
-        voltarBtn.setOnClickListener {
-            val intt = Intent(this, RestauranteActivity::class.java)
-            val restauranteNome = nomeRestaurante.toString()
-            intt.putExtra("nomeRestaurante",restauranteNome)
-            startActivity(intt)
-
-        }
         //calendário
         val c = Calendar.getInstance()
         val ano = c.get(Calendar.YEAR)
@@ -74,7 +109,8 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
         val dia = c.get(Calendar.DAY_OF_MONTH)
 
         edtDataAvaliacao.setOnFocusChangeListener { _, _ ->
-            val dpDialog = DatePickerDialog(this,DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val dpDialog = DatePickerDialog(this,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 //mostrar no edt view
                 val newMonth = month.toInt() + 1
                 val dataStr = "$dayOfMonth/$newMonth/$year"
@@ -85,12 +121,15 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
             inputMethodManager.hideSoftInputFromWindow(edtDataAvaliacao.windowToken, 0)
         }
 
-        //nota
-        seekBar.progress = 5
-        this.seekBar!!.setOnSeekBarChangeListener(this)
+        voltarrrrBtn.setOnClickListener{
+            val intt = Intent(this@EditRatingRefeicoesActivity, VerRatingRefeicoesActivity::class.java)
+            intt.putExtra("nomeRestaurante",nomeRestauranteRefeicao)
+            startActivity(intt)
+
+        }
 
         //guardar no banco
-        updateBtn.setOnClickListener {
+        update2Btn.setOnClickListener {
             if (edtNomePrato.text.isNullOrBlank() || edtIngredientes.text.isNullOrBlank()|| edtAvaliacao.text.isNullOrBlank() || edtDataAvaliacao.text.isNullOrBlank()
                 || txtNota.text == "nota"){
                 displayMessage(this,"Favor preencher todos os campos")
@@ -105,10 +144,10 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                 if(this::mCurrentPhotoPath.isInitialized){
                     fotoPath = mCurrentPhotoPath
                 }else{
-                    fotoPath = "@drawable/ic_add_a_photo_black_24dp"
+                    fotoPath = refeicaoRv!!.foto
                 }
                 //pegar PK do restaurante
-                val pkRestauranteParaInsert = PegarPKRestaurante().execute(nomeRestaurante).get()
+                val pkRestauranteParaInsert = txtIdRestaurante.text.toString().toInt()
                 //guardar a avaliação no db
                 val refeicaoObj =
                     Refeicao(
@@ -118,34 +157,34 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
                         dataAvaliacaoPrato,
                         fotoPath,
                         notaPrato,
-                        pkRestauranteParaInsert
+                        pkRestauranteParaInsert,
+                        txtId.text.toString().toInt()
                     )
-
-                GuardarAvaliacaoRefeicao().execute(refeicaoObj)
+                UpdateAvaliacaoRefeicao().execute(refeicaoObj)
             }
         }
+
     }
 
-
-    inner class GuardarAvaliacaoRefeicao: AsyncTask<Refeicao,Unit,Unit>(){
-        override fun doInBackground(vararg params: Refeicao?) {
-            Log.i("Refeicao1",params[0]!!.nome)
-            appDatabase.refeicaoDAO().guardar(params[0])
-
-        }
-
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-            displayMessage(applicationContext,"Avaliação da Refeição Guardada com Sucesso")
+    inner class GetNomeRestauranteFromId: AsyncTask<Int, Unit, String>(){
+        override fun doInBackground(vararg params: Int?): String {
+            val nome = appDatabase.restauranteDAO().buscaNome(params[0]!!)
+            return nome
         }
     }
 
-    inner class PegarPKRestaurante:AsyncTask<String,Unit,Int>(){
-        override fun doInBackground(vararg params: String?): Int {
-            val pkrestaurante = appDatabase.restauranteDAO().buscaPK(params[0]!!)
-            return pkrestaurante
+    inner class UpdateAvaliacaoRefeicao:AsyncTask<Refeicao,Unit,String>(){
+        override fun doInBackground(vararg params: Refeicao?):String {
+            appDatabase.refeicaoDAO().update(params[0]!!)
+            val nomeRest = appDatabase.restauranteDAO().buscaNome(params[0]!!.id_restaurante)
+            return nomeRest
         }
-
+        override fun onPostExecute(result: String?) {
+            Toast.makeText(this@EditRatingRefeicoesActivity,"Avaliação atualizada com sucesso!",Toast.LENGTH_SHORT).show()
+            val intt = Intent(this@EditRatingRefeicoesActivity, VerRatingRefeicoesActivity::class.java)
+            intt.putExtra("nomeRestaurante",result)
+            startActivity(intt)
+        }
     }
 
     private fun captureImage() {
@@ -160,19 +199,16 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
 
                     photoFile = createImageFile()
                     displayMessage(baseContext, photoFile!!.getAbsolutePath())
-                    Log.i("Passei aqui", photoFile!!.getAbsolutePath())
 
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
 
 
-                        var photoURI = FileProvider.getUriForFile(this,
+                        val photoURI = FileProvider.getUriForFile(this,
                             "android.inflabnet.foodrating.fileprovider",
                             photoFile!!
                         )
-
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-
                         startActivityForResult(takePictureIntent, CAPTURE_IMAGE_REQUEST)
 
                     }
@@ -288,4 +324,5 @@ class RatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeList
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
 
     }
+
 }

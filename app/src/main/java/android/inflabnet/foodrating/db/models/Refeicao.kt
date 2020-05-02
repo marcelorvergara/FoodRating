@@ -2,6 +2,7 @@ package android.inflabnet.foodrating.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 class Refeicao (
@@ -14,4 +15,4 @@ class Refeicao (
     var id_restaurante: Int,
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
-)
+):Serializable

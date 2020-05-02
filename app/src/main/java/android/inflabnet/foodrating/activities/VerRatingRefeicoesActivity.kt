@@ -1,5 +1,6 @@
 package android.inflabnet.foodrating.activities
 
+import android.content.Intent
 import android.inflabnet.foodrating.R
 import android.inflabnet.foodrating.db.init.AppDatabase
 import android.inflabnet.foodrating.db.init.AppDatabaseService
@@ -38,6 +39,7 @@ class VerRatingRefeicoesActivity : AppCompatActivity() {
     inner class BuscaRefecoes:AsyncTask<String,Unit,List<RestauranteERefeicao>>(){
         override fun doInBackground(vararg params: String?): List<RestauranteERefeicao> {
             val pkRestaurante = appDatabase.restauranteDAO().buscaPK(params[0]!!)
+
             val refeicaoRest = appDatabase.restauranteDAO().buscaGeral(pkRestaurante)
             return refeicaoRest
         }
@@ -49,18 +51,17 @@ class VerRatingRefeicoesActivity : AppCompatActivity() {
                     toReturn.add(it)
                 }
             }
-
+            val context = applicationContext
             val linearLayoutManager = LinearLayoutManager(applicationContext)
             rvListaRefeicoes.layoutManager = linearLayoutManager
-            rvListaRefeicoes.scrollToPosition(result!!.size - 1)
-            var con = applicationContext
-            rvListaRefeicoes.adapter =
-                RefeicoesAdapter(
-                    this@VerRatingRefeicoesActivity,
-                    toReturn
-                ) {
-                    Toast.makeText(applicationContext, "Avaliação", Toast.LENGTH_SHORT).show()
-                }
+            rvListaRefeicoes.scrollToPosition(result.size - 1)
+            rvListaRefeicoes.adapter = RefeicoesAdapter(context,toReturn) {
+                val selectedItem= it
+                val intt = Intent(this@VerRatingRefeicoesActivity, EditRatingRefeicoesActivity::class.java)
+                intt.putExtra("nomeRefeicao",selectedItem)
+                startActivity(intt)
+            }
+
         }
     }
 }
