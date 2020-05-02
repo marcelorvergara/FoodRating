@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:background="@drawable/gradient_animation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.CadastrarActivity">
@@ -74,9 +76,10 @@
 
     <RatingBar
         android:id="@+id/ratingRestaurante1"
-        android:layout_width="248dp"
-        android:layout_height="49dp"
+        android:layout_width="243dp"
+        android:layout_height="47dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorTransparent"
         android:max="5"
         android:stepSize="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline3"

@@ -2,6 +2,7 @@ package android.inflabnet.foodrating.activities
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.inflabnet.foodrating.R
 import android.inflabnet.foodrating.db.init.AppDatabase
 import android.inflabnet.foodrating.db.init.AppDatabaseService
@@ -9,8 +10,11 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_restaurante.*
+import kotlinx.android.synthetic.main.activity_restaurante.rootLayout
 
 class RestauranteActivity : AppCompatActivity() {
 
@@ -20,6 +24,12 @@ class RestauranteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurante)
 
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        val animDrawable = rootLayout.background as AnimationDrawable
+        animDrawable.setEnterFadeDuration(10)
+        animDrawable.setExitFadeDuration(5000)
+        animDrawable.start()
+
         appDatabase = AppDatabaseService.getInstance(this)
         rtBar.setIsIndicator(true)
 
@@ -28,6 +38,11 @@ class RestauranteActivity : AppCompatActivity() {
             txtXYZ.text = nomeRestaurante.toString()
             Log.i("Rating nome", nomeRestaurante.toString())
             BuscarAvaliacao().execute(nomeRestaurante.toString())
+        }
+
+        voltarBtnTelaPri.setOnClickListener {
+            val intt = Intent(this, MainActivity::class.java)
+            startActivity(intt)
         }
 
         avaliarBtn.setOnClickListener {
@@ -57,7 +72,8 @@ class RestauranteActivity : AppCompatActivity() {
                 .setCancelable(false)
                 .setPositiveButton("Sim"){_, _ ->
                     GetDeleteRestaurante().execute(nomeRestaurante)
-
+                    val intt = Intent(this, MainActivity::class.java)
+                    startActivity(intt)
                 }
                 .setNegativeButton("Não") { _, _ ->
                     Toast.makeText(this,"Ok, cancelamento cancelado com sucesso! Rsrsrs",Toast.LENGTH_SHORT).show()

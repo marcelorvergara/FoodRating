@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
+    android:background="@drawable/gradient_animation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
@@ -38,31 +39,34 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="20dp" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/border"
+        android:fontFamily="serif-monospace"
+        android:text="Restaurantes Cadastrados"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/aCTVRestaurantes" />
+
     <ScrollView
         android:id="@+id/scrollRestaurantes"
-        android:layout_width="290dp"
-        android:layout_height="240dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="297dp"
+        android:layout_height="212dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/border"
         android:isScrollContainer="false"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/aCTVRestaurantes">
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="6dp"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:background="@drawable/border"
-                android:fontFamily="serif-monospace"
-                android:text="Restaurantes Cadastrados"
-                android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcRecycleV"
@@ -103,6 +107,7 @@
                 android:id="@+id/alterarBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:text="Cadastrar" />
         </LinearLayout>
     </ScrollView>

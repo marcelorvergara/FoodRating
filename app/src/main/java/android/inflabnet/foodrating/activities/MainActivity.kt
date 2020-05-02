@@ -1,6 +1,7 @@
 package android.inflabnet.foodrating.activities
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.inflabnet.foodrating.R
 import android.inflabnet.foodrating.db.init.AppDatabase
 import android.inflabnet.foodrating.db.init.AppDatabaseService
@@ -27,6 +28,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        val animDrawable = rootLayout.background as AnimationDrawable
+        animDrawable.setEnterFadeDuration(10)
+        animDrawable.setExitFadeDuration(5000)
+        animDrawable.start()
+
         //abre conexão com o banco
         appDatabase = AppDatabaseService.getInstance(this)
 
@@ -48,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: List<Restaurante>?) {
             val linearLayoutManager = LinearLayoutManager(applicationContext)
             rcRecycleV.layoutManager = linearLayoutManager
-            rcRecycleV.scrollToPosition(result!!.size - 1)
+            rcRecycleV.scrollToPosition(result!!.size)
             rcRecycleV.adapter = RestauranteAdapter(result) {
                 val selectedItem= it
                 val intt = Intent(this@MainActivity, RestauranteActivity::class.java)

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.drawable.AnimationDrawable
 import android.inflabnet.foodrating.R
 import android.inflabnet.foodrating.db.init.AppDatabase
 import android.inflabnet.foodrating.db.init.AppDatabaseService
@@ -19,6 +20,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.Toast
@@ -34,7 +36,9 @@ import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.foodView
 import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.seekBar
 import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.txtNomeRestauranteAvaliacao
 import kotlinx.android.synthetic.main.activity_edit_rating_refeicoes.txtNota
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_rating_refeicoes.*
+import kotlinx.android.synthetic.main.activity_rating_refeicoes.rootLayout
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -54,6 +58,12 @@ class EditRatingRefeicoesActivity : AppCompatActivity(), SeekBar.OnSeekBarChange
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_rating_refeicoes)
+
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        val animDrawable = rootLayout.background as AnimationDrawable
+        animDrawable.setEnterFadeDuration(10)
+        animDrawable.setExitFadeDuration(5000)
+        animDrawable.start()
 
         appDatabase = AppDatabaseService.getInstance(this)
 
